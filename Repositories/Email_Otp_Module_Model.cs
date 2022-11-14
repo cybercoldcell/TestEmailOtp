@@ -29,12 +29,12 @@ namespace TestEmailOtp.Repositories
                 int otp = int.Parse(item[1]);
                 TimeSpan ts = curDate - DateTime.Parse(item[2]);
 
-                if (otpEmail.ToUpper().Equals(email.ToUpper()) && otp == code && ts.TotalMinutes <= 60)
+                if (otpEmail.ToUpper().Equals(email.ToUpper()) && otp == code && ts.TotalMinutes <= 1)
                 {
                     status = 0;
                     return status;
                 }
-                else if(ts.TotalMinutes > 60) {
+                else if(ts.TotalMinutes > 1) {
                     status = 2;
                     return status;
                 }
@@ -92,7 +92,7 @@ namespace TestEmailOtp.Repositories
 
                 bool isValidEmail = regex.IsMatch(email);
                 if (!isValidEmail) return 2;
-                //if (!email.ToUpper().Contains(".DSO.ORG.SG")) return 2;
+                if (!email.ToUpper().Contains(".DSO.ORG.SG")) return 2;
 
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress(fromMail);
