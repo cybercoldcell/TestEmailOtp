@@ -30,16 +30,15 @@ namespace TestEmailOtp
                 case 0:
                     Console.WriteLine(EmailStatus.STATUS_EMAIL_OK.ToString() + " email containing OTP has been sent successfully.");
 
-                    for (int i = 0; i < 9; i++)
+                    for (int i = 1; i <= 10; i++)
                     {
-                        int count = i + 1;
-                        Console.Write(count + " Enter your code.");
+                        Console.Write(i + " Enter your code: ");
                         int code = int.Parse(Console.ReadLine());
                         result = repo.CheckOtp(_config, email, code);
                         if (result == 0) break;
                     }
 
-                    if (result != 0 || result != 2) result = 2;
+                    if (result != 0 && result != 1) result = 2;
 
                     switch (result)
                     {

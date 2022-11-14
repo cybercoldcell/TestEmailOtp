@@ -34,7 +34,7 @@ namespace TestEmailOtp.Repositories
                     status = 0;
                     return status;
                 }
-                else if(otpEmail.ToUpper().Equals(email.ToUpper()) && otp == code && ts.TotalMinutes > 60) {
+                else if(ts.TotalMinutes > 60) {
                     status = 2;
                     return status;
                 }
@@ -92,7 +92,7 @@ namespace TestEmailOtp.Repositories
 
                 bool isValidEmail = regex.IsMatch(email);
                 if (!isValidEmail) return 2;
-                if (!email.ToUpper().Contains(".DSO.ORG.SG")) return 2;
+                //if (!email.ToUpper().Contains(".DSO.ORG.SG")) return 2;
 
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress(fromMail);
