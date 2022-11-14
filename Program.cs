@@ -35,10 +35,10 @@ namespace TestEmailOtp
                         Console.Write(i + " Enter your code: ");
                         int code = int.Parse(Console.ReadLine());
                         result = repo.CheckOtp(_config, email, code);
-                        if (result == 0) break;
+                        if (result == 0 || result == 2) break;
                     }
 
-                    if (result != 0 && result != 1) result = 2;
+                    //if (result != 0 && result != 1) result = 2;
 
                     switch (result)
                     {
