@@ -47,8 +47,10 @@ namespace TestEmailOtp
                     for (int i = 1; i <= 10; i++)
                     {
                         Console.Write(i + " Enter your code: ");
-                        int code = int.Parse(Console.ReadLine());
-                        result = repo.CheckOtp(_config, email, code);
+                        int code;
+                        bool num = int.TryParse(Console.ReadLine(), out code);
+
+                        result = repo.CheckOtp(_config, email, !num ? 0 : code);
                         if (result == 0 || result == 2) break;
                     }
 
