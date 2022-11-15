@@ -34,12 +34,16 @@ namespace TestEmailOtp.Repositories
                     status = 0;
                     return status;
                 }
-                else if(ts.TotalMinutes > 1) {
+                else if (otpEmail.ToUpper().Equals(email.ToUpper()) && otp == code && ts.TotalMinutes > 1)
+                {
                     status = 2;
                     return status;
                 }
-
-                //Console.WriteLine(lines[i] + " - " + otp + " - " + ts.TotalMinutes);
+                //else if (ts.TotalMinutes > 1)
+                //{
+                //    status = 2;
+                //    return 2;
+                //}
             }
 
             status = 1;
@@ -62,12 +66,14 @@ namespace TestEmailOtp.Repositories
             otp = (rnd.Next(100000, 999999)).ToString();
             String input = email + ", " + otp + ", " + DateTime.Now;
 
-            if (!File.Exists(fileName))
-            {
-                File.Create(filePath).Close();
-            }
+            File.Create(filePath).Close();
+            //if (!File.Exists(filePath))
+            //{
+            //    File.Create(filePath).Close();
+            //}
 
-            using (StreamWriter sw = File.AppendText(filePath))
+            using (FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write))
+            using (StreamWriter sw = new StreamWriter(fs))
             {
                 sw.WriteLine(input);
             }
@@ -91,8 +97,14 @@ namespace TestEmailOtp.Repositories
                 RegexOptions.CultureInvariant | RegexOptions.Singleline);
 
                 bool isValidEmail = regex.IsMatch(email);
-                if (!isValidEmail) return 2;
-                if (!email.ToUpper().Contains(".DSO.ORG.SG")) return 2;
+                String emailFormat = ".DSO.ORG.SG";
+                String[] extractEmail = email.Split("@");
+
+                String getEmail = extractEmail[1];
+                String accEmail = getEmail.Substring(getEmail.IndexOf("."), getEmail.Length - getEmail.IndexOf("."));
+
+                if (!isValidEmail || !accEmail.ToUpper().Equals(emailFormat)) return 2;
+                //if (!email.ToUpper().Contains(".DSO.ORG.SG")) return 2;
 
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress(fromMail);
